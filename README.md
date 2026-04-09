@@ -22,7 +22,7 @@ pandoc可以把 Markdown 转换为 html，而且可以通过 css 更灵活的控
 sudo apt install pandoc
 # 安装 hwpdf
 ./install.sh
-# 使用 hwpdf 将 Markdown 转换为 PDF
+# 使用 hwpdf 将 Markdown 转换为 HTML
 hwpdf test.md
 ```
 
