@@ -30,4 +30,4 @@ hwpdf test.md
 # ./uninstall.sh
 ```
 
-默认会生成一个 test.html 和一个 test.pdf 文件，也可以通过 `hwpdf test.md -o output.pdf` 来指定输出文件名。
+默认会生成一个 test.html 和一个 test.pdf 文件，也可以通过 `hwpdf test.md output.pdf` 来指定输出文件名或者 `hwpdf test.md output.html` 来只生成 HTML 文件。
