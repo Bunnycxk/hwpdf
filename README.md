@@ -13,17 +13,21 @@
 ## 解决方案
 pandoc可以把 Markdown 转换为 html，而且可以通过 css 更灵活的控制样式。于是可以进行曲线救国，先将 Markdown 转换为 html，然后再利用浏览器的打印功能将 html 转换为 PDF。这样就可以利用 css 来控制样式，解决了之前渲染效果不理想的问题。
 
-唯一的缺点是浏览器打印还需要手动操作，未来应该可以通过一些自动化工具来实现自动打印，或者直接使用一些库来将 html 转换为 PDF。
-
+至于 html 打印变成 pdf, 可以手动，当然就可以想办法变成自动，可以安装 chromium 来进行打印 pdf 操作。
 ## Quick Start
 
-```
-# 安装 pandoc
-sudo apt install pandoc
+```bash
+# 安装 pandoc 和 chromium
+sudo apt install pandoc chromium
+# 安装 数学字体
+sudo apt install fonts-stix
 # 安装 hwpdf
 ./install.sh
-# 使用 hwpdf 将 Markdown 转换为 HTML
+# 使用 hwpdf 将 Markdown 转换为 PDF
 hwpdf test.md
+
+# 卸载hwpdf
+# ./uninstall.sh
 ```
 
-默认会生成一个 test.html 文件，可以直接用浏览器打开，然后使用浏览器的打印功能保存为 PDF，打开时需要联网，因为 Latex 的数学公式需要通过在线工具进行渲染。
+默认会生成一个 test.html 和一个 test.pdf 文件，也可以通过 `hwpdf test.md -o output.pdf` 来指定输出文件名。

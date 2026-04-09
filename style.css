@@ -3,14 +3,19 @@
   --fg: #24292f;
   --muted: #57606a;
   --line: #d0d7de;
+  --line-soft: #e5e7eb;
   --bg: #ffffff;
   --code-bg: #f6f8fa;
   --quote-bg: #f6f8fa;
+  --thead-bg: #f6f8fa;
+  --row-alt-bg: #fcfcfd;
   --link: #0969da;
 }
 
 html {
   font-size: 16px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 body {
@@ -23,6 +28,8 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 /* ===== Page ===== */
@@ -102,6 +109,8 @@ blockquote {
   background: var(--quote-bg);
   border-left: 4px solid #d8dee4;
   border-radius: 8px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 /* ===== Tables ===== */
@@ -111,10 +120,13 @@ table {
   margin: 1em auto;
   width: auto;
   max-width: 100%;
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 thead tr {
-  background: #f6f8fa;
+  background: var(--thead-bg);
 }
 
 th, td {
@@ -125,7 +137,7 @@ th, td {
 }
 
 tbody tr:nth-child(2n) {
-  background: #fcfcfd;
+  background: var(--row-alt-bg);
 }
 
 /* ===== Inline code ===== */
@@ -142,19 +154,23 @@ th code,
 blockquote code {
   background: var(--code-bg);
   padding: 0.14em 0.38em;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--line-soft);
   border-radius: 6px;
   word-break: break-word;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 /* ===== Code blocks ===== */
 div.sourceCode {
   background: var(--code-bg) !important;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--line-soft);
   border-radius: 12px;
   padding: 0 !important;
   overflow: hidden;
   margin: 0 0 1em 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 pre,
@@ -203,6 +219,30 @@ img {
 }
 
 /* ===== Math ===== */
+/* General math font stack: try math fonts first, then common serif fallbacks */
+math,
+mrow, mi, mn, mo, mtext, ms, msub, msup, msubsup,
+mfrac, msqrt, mroot, munder, mover, munderover,
+mtable, mtr, mtd {
+  font-family: "STIX Two Math", "Latin Modern Math", "Cambria Math",
+               "STIX Two Text", "Times New Roman", serif !important;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ensure operators like ∑ look less cramped */
+mo {
+  letter-spacing: 0;
+}
+
+/* Inline math */
+math:not([display="block"]) {
+  font-size: 1.05em;
+}
+
+/* Block math */
 .display.math,
 .math.display,
 span.display.math,
@@ -216,7 +256,7 @@ math[display="block"] {
   display: table !important;
   margin: 1em auto !important;
   max-width: 100%;
-  font-size: 1.5em;
+  font-size: 1.22em;
 }
 
 p > math[display="block"] {
@@ -224,14 +264,17 @@ p > math[display="block"] {
   margin: 1em auto !important;
 }
 
+/* MathJax fallback */
 mjx-container[display="true"] {
   display: table !important;
   margin: 1em auto !important;
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  font-size: 1.18em;
 }
 
+/* KaTeX fallback */
 .katex-display {
   display: block !important;
   text-align: center !important;
@@ -254,7 +297,9 @@ mjx-container[display="true"] {
 @media print {
   html,
   body {
-    background: #fff;
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   body {
@@ -286,6 +331,20 @@ mjx-container[display="true"] {
   h4 {
     break-after: avoid-page;
     page-break-after: avoid;
+  }
+
+  /* Preserve backgrounds in Chromium print */
+  blockquote,
+  table,
+  thead tr,
+  tbody tr:nth-child(2n),
+  p code,
+  li code,
+  td code,
+  th code,
+  div.sourceCode {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* Chrome print fix: prevent strange left indent in code blocks */
@@ -334,9 +393,26 @@ mjx-container[display="true"] {
     margin-left: auto !important;
     margin-right: auto !important;
   }
+
+  /* MathML print tuning */
+  math,
+  mrow, mi, mn, mo, mtext, ms, msub, msup, msubsup,
+  mfrac, msqrt, mroot, munder, mover, munderover,
+  mtable, mtr, mtd {
+    font-family: "STIX Two Math", "Latin Modern Math", "Cambria Math",
+                 "STIX Two Text", "Times New Roman", serif !important;
+  }
+
+  math[display="block"] {
+    font-size: 1.18em !important;
+  }
+
+  math:not([display="block"]) {
+    font-size: 1.02em !important;
+  }
 }
 
-/* block math */
+/* Final math sizing */
 mjx-container[display="true"],
 math[display="block"],
 .display.math {

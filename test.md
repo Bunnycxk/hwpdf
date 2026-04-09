@@ -55,7 +55,7 @@ int main() {
 再来一个 shell 代码块：
 
 ```bash
-pandoc test.md -s -o test.html --css=style.css --mathjax
+chromium  --headless  --no-pdf-header-footer  --print-to-pdf=test.pdf  file://$(realpath test.html)
 ```
 
 ## 引用
